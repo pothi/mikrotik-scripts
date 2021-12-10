@@ -1,3 +1,5 @@
+# Source: https://forum.mikrotik.com/viewtopic.php?t=178312
+
 /system script job remove [find script=lteLogger2]
 
 /system scheduler
