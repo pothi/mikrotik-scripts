@@ -58,5 +58,5 @@
 #                               Specific to LTE Products                                   #
 ### ------------------------------------------------------------------------------------ ###
 # SMS Receive capability
-/tool sms set auto-erase=yes receive-enabled=yes port=lte1;
+/tool sms set auto-erase=yes receive-enabled=yes secret=0000 port=lte1;
 
