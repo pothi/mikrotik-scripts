@@ -1,14 +1,17 @@
 :global country "India";
 :global identity "Mikrotik";
+:global myPassword;
+
 # override the default values here
 :set identity "Mikrotik SXT LTE";
+:set myPassword [:pick ([/cert scep-server otp generate as-value minutes-valid=1]->"password") 0 20]
 
-# Custom subnet
-:global customSubnetCIDR "10.88.50.0/24";
+# my subnet
+:global mySubnetCIDR "10.88.50.0/24";
 :global dhcpServerIP "10.88.50.1";
 :global dhcpPoolRange "10.88.50.88-10.88.50.254";
-:global dhcpName "custom-dhcp";
-:global customBridgeAddress "10.88.50.1/24";
+:global dhcpName "my-dhcp";
+:global myBridgeAddress "10.88.50.1/24";
 
 # SSH
 :global sshUserName "pothi";
@@ -27,10 +30,10 @@
 /ip dhcp-server remove defconf;
 /ip dhcp-server add name=$dhcpName address-pool=$dhcpName interface=bridge lease-time=10m disabled=no;
 
-/ip dhcp-server network add address=$customSubnetCIDR gateway=$dhcpServerIP dns-server=$dhcpServerIP;
+/ip dhcp-server network add address=$mySubnetCIDR gateway=$dhcpServerIP dns-server=$dhcpServerIP;
 /ip dhcp-server network remove [find dns-server=192.168.88.1];
 
-/ip address add address=$customBridgeAddress interface=bridge;
+/ip address add address=$myBridgeAddress interface=bridge;
 /ip address remove [find address="192.168.88.1/24"]
 
 #change static DNS entry for router.lan
@@ -53,6 +56,7 @@
 /system ntp client set primary-ntp=[ :resolve pool.ntp.org ];
 /system ntp client set secondary-ntp=[ :resolve time.cloudflare.com ];
 /system ntp client set server-dns-names=time.google.com,time.apple.com;
+/system ntp client set enabled=yes;
 
 ### ------------------------------------------------------------------------------------ ###
 #                               Specific to LTE Products                                   #
