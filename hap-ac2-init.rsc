@@ -71,7 +71,6 @@
 # Configure NTP Client
 /system ntp client set primary-ntp=[ :resolve pool.ntp.org ];
 /system ntp client set secondary-ntp=[ :resolve time.cloudflare.com ];
-/system ntp client set server-dns-names=time.google.com,time.apple.com;
 
 # Enable mode-button
 :global modeButtonScriptName "wifi-enable";
