@@ -44,8 +44,10 @@
 # Wireless tweaks
 
 # install public SSH key
-/tool fetch https://launchpad.net/~pothi/+sshkeys dst-path=pothi-ssh-key-rsa;
-:delay 5s;
+{
+    :local result [ /tool fetch https://launchpad.net/~pothi/+sshkeys dst-path=pothi-ssh-key-rsa as-value];
+    :while ($result->"status" != "finished") do={ :delay 2s }
+}
 /user ssh-keys import public-key-file=pothi-ssh-key-rsa;
 /file remove pothi-ssh-key-rsa;
 
