@@ -10,7 +10,8 @@
 
 # override the default values here
 :set myIdentity "Mikrotik #1 hAP ac2";
-:set mySSID "mikro1"
+:set mySSID "mikro1-on"
+:set guestSSID "mikro1-gn"
 
 :set myPassword    [:pick ([/cert scep-server otp generate as-value minutes-valid=1]->"password") 0 20]
 :set mainWIFIpass  [:pick ([/cert scep-server otp generate as-value minutes-valid=1]->"password") 0 20]
