@@ -63,15 +63,13 @@
 /ip pool add name=$dhcpName ranges=$dhcpPoolRange;
 /ip dhcp-server network add address=$mySubnetCIDR gateway=$dhcpServerIP dns-server=$dhcpServerIP;
 /ip address add address=$myBridgeAddress interface=bridge;
-# /ip dhcp-server add name=$dhcpName address-pool=$dhcpName interface=bridge lease-time=10m disabled=no;
-/ip dhcp-server set [find name=defconf] address-pool=my-dhcp
+/ip dhcp-server set [find interface=bridge] address-pool=my-dhcp
 :put "Subnet changed."
 
 :put "Removing old subnet."
 :put "This will make the current SSH session unresponsive."
 :put "Renew or release the IP in DHCP client in the router or disble & enable DHCP client to make everything work again."
 /ip pool remove default-dhcp;
-/ip dhcp-server network remove [find dns-server=192.168.88.1];
+/ip dhcp-server network remove [find gateway=192.168.88.1];
 /ip address remove [find address="192.168.88.1/24"]
-# /ip dhcp-server remove defconf;
 
