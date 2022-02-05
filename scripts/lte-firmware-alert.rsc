@@ -1,3 +1,5 @@
+# Ref: https://wiki.mikrotik.com/wiki/Manual:Interface/LTE#Modem_firmware_upgrade
+
 :local lteFirmwareInfo [/interface lte firmware-upgrade lte1 as-value];
 
 :local lteInstalledVer ($lteFirmwareInfo->"installed");
