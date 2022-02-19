@@ -1,22 +1,25 @@
 # Alert upon new version
 
-# requirement/s: $adminEmailAddress
+# requirement/s:
 :local adminEmailAddress "admin@example.com"
-
-:log info "Checking for new version of RouterOS..."
+:local startDelay "100s"
 
 # if you run this script at "startup",
 # the following indicates the time for the internet to go "up"
-:delay 60s
+# ToDo: Find it out dynamically
+:delay $startDelay
+
+:log info "Checking for new version of RouterOS..."
 
 /system package update
 
 check-for-updates once
 
-:local verionStatus
+:local versionStatus
+:local deviceIdentity [/system identity get name]
 
 :do {
-  :delay 2s
+  :delay 3s
 
   :set $versionStatus [get status]
   # alternative way to get the above info
@@ -27,13 +30,20 @@ check-for-updates once
 # :put $versionStatus
 # :put $adminEmailAddress
 
+:local installedVersion [get installed-version]
+:local latestVersion [get latest-version]
+
 :if ( $versionStatus = "New version is available" ) do={
 # alternative method
-# :if ( [get installed-version] != [get latest-version] ) do={
-    :log info "A new firmware is available for Router OS and an email is probably sent to $adminEmailAddress."
+# :if ( installedVersion != $latestVersion ) do={
+    :log info "A new update is available for Router OS and an email is probably sent to $adminEmailAddress."
     /tool e-mail send to="$adminEmailAddress" \
-      subject="[Mikrotik] Software Update is Available" \
-      body="A new update is available for your MikroTik device"
+      subject="[Mikrotik $deviceIdentity] Software Update is Available" \
+      body="A new update is available for your MikroTik device: \"$deviceIdentity\" ...
+
+      Installed Version: $installedVersion
+          Latest Version: $latestVersion
+      "
 } else={
-  :log info "System is already up to date"
+  :log info "Router OS is already up to date."
 }
