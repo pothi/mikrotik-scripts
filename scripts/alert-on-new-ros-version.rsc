@@ -1,5 +1,6 @@
 # Alert upon new version
 
+# permissions: read, write, policy, test
 # requirement/s:
 :local adminEmailAddress "admin@example.com"
 :local startDelay "100s"
