@@ -1,7 +1,8 @@
 # Backup cron (schedules).
 
-# requirements:
+# filename: backup-cron
 # policy: ftp, read, write, policy, test
+
 :local adminEmailAddress pothi@duck.com
 :local deviceIdentity [/system identity get name]
 
@@ -11,7 +12,7 @@
 
 /tool e-mail send to="$adminEmailAddress" \
   subject="[Mikrotik $deviceIdentity] Backup of Cron Entries" \
-  body="See subject and attachment" \
+  body="See the subject and the attachment." \
   file=cron.rsc; :delay 10s
 
 :log info "An email is probably sent to $adminEmailAddress."

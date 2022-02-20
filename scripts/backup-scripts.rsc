@@ -1,7 +1,8 @@
 # Backup scripts.
 
-# requirements:
+# filename: backup-scripts
 # policy: ftp, read, write, policy, test
+
 :local adminEmailAddress "admin@example.com"
 :local deviceIdentity [/system identity get name]
 
@@ -11,7 +12,7 @@
 
 /tool e-mail send to="$adminEmailAddress" \
   subject="[Mikrotik $deviceIdentity] Backup of Scripts" \
-  body="See subject and attachment" \
+  body="See the subject and the attachment." \
   file=scripts.rsc; :delay 10s
 
 :log info "An email is probably sent to $adminEmailAddress."
