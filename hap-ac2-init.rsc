@@ -40,6 +40,14 @@
 # Configure Identity
 /system identity set name=$myIdentity;
 
+# Minor Tweaks
+/system routerboard settings set init-delay=3
+/interface detect-internet
+  set detect-interface-list=WAN
+  set lan-interface-list=LAN
+  set wan-interface-list=all
+  set internet-interface-list=all
+
 # Change subnet
 /ip pool add name=$dhcpName ranges=$dhcpPoolRange;
 /ip pool remove default-dhcp;

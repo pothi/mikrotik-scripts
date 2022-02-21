@@ -7,8 +7,8 @@
 # Note: The SMS is removed from the inbox after sent by Email and forwarded
 # even if email and forward fail! So, test it often!
 
-:local adminEmailAddress "pothi@duck.com"
-:local smsForwardPh 9952697255
+:local adminEmail "admin@example.com"
+:local smsForwardPh 9876543210
 
 :local smsPhone
 :local smsMessage
@@ -24,11 +24,13 @@
   :log info "SMS Received From: $smsPhone at $smsTimeStamp Message: $smsMessage"
 
   # Forward the SMS to $smsForwardPh
-  /tool sms send lte1 phone-number=$smsForwardPh message="From: $smsPhone on $smsTimeStamp Msg: $smsMessage";
+  :do {
+    /tool sms send lte1 phone-number=$smsForwardPh message="From: $smsPhone Date:$smsTimeStamp Msg: $smsMessage"
+  } on-error={ /tool e-mail send to="$adminEmail" subject="Sending SMS Failed" body="Check the log" }
   :delay 2s
 
-  # Send Email to $adminEmailAddress
-  /tool e-mail send to="$adminEmailAddress" body="$smsMessage" \
+  # Send Email to $adminEmail
+  /tool e-mail send to="$adminEmail" body="$smsMessage" \
     subject="SMS from $smsPhone at $smsTimeStamp"
   :delay 3s
 
