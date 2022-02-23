@@ -25,6 +25,13 @@
 # Configure Identity
 /system identity set name=$identity
 
+# Minor Tweaks
+/interface detect-internet
+  set detect-interface-list=WAN
+  set lan-interface-list=LAN
+  set wan-interface-list=all
+  set internet-interface-list=all
+
 # Wireless tweaks
 
 # install public SSH key
