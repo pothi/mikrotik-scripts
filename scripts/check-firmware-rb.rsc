@@ -1,4 +1,4 @@
-# Notify to upgrade RouterBoard Firmware
+# Notify to upgrade RouterBoard firmware
 
 # requirement/s:
 #   policy: read, write, policy, test
@@ -9,7 +9,7 @@
 :local oldVersion
 :local newVersion
 
-:log info "\nChecking Routerboard Firmware versions..."
+:log info "\nChecking for pending Routerboard firmware update..."
 
 /system routerboard
   :set oldVersion [get current-firmware]
@@ -20,5 +20,5 @@
   /tool e-mail send to="$adminEmail" subject="RouterBoard firmware upgrade!" \
     body="An upgrade from $oldVersion to $newVersion is pending!"
 } else={
-  :log info "RouterBoard Firmware is up to date.\n"
+  :log info "RouterBoard firmware is up to date."
 }
