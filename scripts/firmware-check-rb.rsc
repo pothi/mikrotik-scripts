@@ -6,6 +6,9 @@
 #   $adminEmail
 
 :global adminEmail
+:if ([:typeof $adminEmail] = "nothing" || $adminEmail = "") do={
+  :log error "adminEmail is not defined or nil."; :error "Error: Check the log"; }
+
 :local oldVersion
 :local newVersion
 
