@@ -1,13 +1,13 @@
 # Cloud Backup
 
 # requirement/s:
-:global cloudBackupPass
+:global cloudPass
+:if ([:typeof $cloudPass] = "nothing" || $cloudPass = "") do={
+  :log error "cloudPass is not defined or nil."; :error "Error: Check the log"; }
 
 # permissions required: ftp, read, write, policy, test
 
-:local backupName "Cloud Backup"
-
-:log info "\nRunning the script \"cloud-backup\"..."
+:log info "\nCreating a new cloud backup..."
 
 /system backup cloud
 
@@ -16,15 +16,15 @@
 
   remove-file number=0
   :delay 3s
-  :log info "Existing $backupName is removed to create-and-upload a new backup."
+  :log info "  Existing cloud backup is removed to create space for a new backup."
 
-} else={ :log info "No existing $backupName found."; }
+} else={ :log info "  No existing cloud backup found."; }
 
-:log info "Creating a new $backupName..."
+:log info "  A new cloud backup is being created..."
 
-  upload-file action=create-and-upload password=$cloudBackupPass
-  :delay 10s
+  upload-file action=create-and-upload password=$cloudPass
+  :delay 30s
 
 :if ( ([:pick [print as-value] 0]->"status") = "ok" ) do={
-  :log info "$backupName is successful."
-} else={ :log error "$backupName failed!" }
+  :log info "Cloud backup is successful."
+} else={ :log error "Cloud backup failed!" }

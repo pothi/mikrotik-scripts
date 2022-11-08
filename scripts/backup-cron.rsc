@@ -3,18 +3,36 @@
 # filename: backup-cron
 # policy: ftp, read, write, policy, test
 
-:local adminEmailAddress pothi@duck.com
-:local deviceIdentity [/system identity get name]
+:global adminEmail
+:if ([:typeof $adminEmail] = "nothing" || $adminEmail = "") do={
+  :log error "adminEmail is not defined or nil."; :error "Error: Check the log"; }
 
-:log info "Executing the script \"backup-cron\"..."
+:local backupName "cron"
 
-/system scheduler export file=cron; :delay 3s
+:local fileName "$backupName.rsc"
+:local emailStatus
 
-/tool e-mail send to="$adminEmailAddress" \
-  subject="[Mikrotik $deviceIdentity] Backup of Cron Entries" \
-  body="See the subject and the attachment." \
-  file=cron.rsc; :delay 10s
+:log info "\nCreating a $backupName backup..."
 
-:log info "An email is probably sent to $adminEmailAddress."
+# remove existing file, if exists for unknown reason
+/file remove [find name=$fileName]; :delay 1s
 
-/file remove cron.rsc
+# create a backup of cron entries
+/system scheduler export file=$fileName
+:delay 3s
+
+/tool e-mail
+
+:do { send to="$adminEmail" subject="Backup of $backupName" \
+    body="See the subject and the attachment." file=$fileName
+  } on-error={ :log error "Error sending email." }
+
+:do { :delay 5s; :set emailStatus [get last-status] } while=( $emailStatus = "in-progress" )
+
+:if ( $emailStatus = "failed" ) do={
+  :log error "Backup failed!"
+} else={
+  :log info "Backup is taken and is sent to $adminEmail."
+}
+
+/file remove $fileName
