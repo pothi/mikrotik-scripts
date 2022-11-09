@@ -1,10 +1,12 @@
 # Enable WiFi in the morning
 
+# using mode button
+/system routerboard mode-button set enabled=yes on-event=":log info \"Mode button pressed\"; /int wifiwave2 enable [find]; /int wireless enable [find];"
+
 # as a cron event
 /system scheduler
 add comment="Enable WiFi @morning" interval=1d name="WiFi Enable" on-event="/int wifiwave2 enable [find]; /int wireless enable [find];" \
     policy=read,write,policy,test start-date=jan/03/2022 start-time=05:30:00
-
 
 # as a script to be used
 
