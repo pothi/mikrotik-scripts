@@ -1,0 +1,7 @@
+:global adminEmail
+
+:if ([:typeof $adminEmail] = "nothing" || $adminEmail = "") do={ :log error "Admin Email is not defined or nil."; :error "Admin Email is not defined or nil."; } else={ :put "We are good to proceed!" } 
+
+# :if ($adminEmail = "") do={ :log error "Admin Email is nil."; :error "Admin Email is nil."; }
+
+:put "This should not be visible if admin email is not defined or nil!"

@@ -1,0 +1,12 @@
+# Email the generic-log when it reaches the threshold!
+
+:global adminEmail
+:local emailStatus
+:local logFile "genericLog.1.txt"
+:local fileContent "temp"
+
+:do {
+  if ( [/file get "flash/$logFile" ] != "no such item" ) do={ :log info "Log file found!" }
+} on-error={ :log warning "Log file isn't big enough!" }
+
+:put $fileContent
