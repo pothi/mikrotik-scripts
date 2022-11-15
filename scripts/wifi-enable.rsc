@@ -10,20 +10,33 @@ add comment="Enable WiFi @morning" interval=1d name="WiFi Enable" on-event="/int
 
 # as a script to be used
 
-/interface wifiwave2
-  enable [find]
+# Enable wireless / wifiwav2 interfaces if disabled.
 
-/interface wireless
+:local interfaces
+:local interface
 
-# Enable all WiFi interfaces
-# :if ( [get wifi2g disabled] = true ) do={ enable [find] }
+# :do { /int wifiwave2 enable [find]; } on-error={ :log info "Error enabling wifiwave2 interfaces" }
+:do {
 
-# Enable selective WLANs
+  /int wifiwave2
 
-:if ( [get wifi2g disabled] = true ) do={ enable wifi2g } else={ :log info "wifi2g is already running" }
+  :set interfaces [print as-value]
+  :foreach interface in=$interfaces do={
+    :local wifiName ($interface->"name")
+    :if ( [get $wifiName disabled] = true ) do={ enable $wifiName } else={ :log info "$wifiName is already running" }
+  }
+} on-error={ :log info "Wifiwave2 doesn't exist!" }
 
-:if ( [get wifi5g disabled] = true ) do={ enable wifi5g } else={ :log info "wifi5g is already running" }
 
-# :if ( [get [find master-interface=wifi2g] disabled] = true ) do={ enable [find master-interface=wifi2g] } else={ :log info "guest2g is already running." }
+# :do { /int wireless enable [find]; } on-error={ :log info "Error enabling wireless interfaces" }
+:do {
 
-# :if ( [get [find master-interface=wifi5g] disabled] = true ) do={ enable [find master-interface=wifi5g] } else={ :log info "guests2g is already running." }
+  /int wireless
+
+  :set interfaces [print as-value]
+  :foreach interface in=$interfaces do={
+    :local wifiName ($interface->"name")
+    :if ( [get $wifiName disabled] = true ) do={ enable $wifiName } else={ :log info "$wifiName is already running" }
+  }
+} on-error={ :log info "Wireless interface doesn't exist. Probably using wifiwave!" }
+
