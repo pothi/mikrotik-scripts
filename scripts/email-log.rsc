@@ -1,29 +1,37 @@
 # Email the generic-log when it reaches the threshold!
 
-# Exclusive for RouterOS v7
-
-# Requirements: adminEmail, logTopics
-:global adminEmail
-
 # one-time process to be done when bootstrapping the device
 # :local logTopics {"info"; "error"; "warning"; "critical"}
 # :foreach topic in=$logTopics do={ :system logging add topics=$topic action=disk }
 
+# Requirements: adminEmail, logTopics
+:global adminEmail
+
+:if ([:typeof $adminEmail] = "nothing" || $adminEmail = "") do={
+  :log error "adminEmail is not defined or nil."; :error "Error: Check the log"; }
+
 :local emailStatus
 :local logFile "log.1.txt"
 
-# :log info "Checking for $logFile file"
+# check for "flash" folder
+:do {
+  /file get "flash/log.0.txt"
+  :set logFile "flash/log.1.txt"
+  :put "Flash folder found!"
+} on-error={
+  :put "Flash folder doesn't exist!"
+}
 
 :do {
   /file get "$logFile"
 } on-error={
-    :error "Log files isn't created yet, because it isn't big enough!";
-#  :log warning "Log file isn't created yet, because it isn't big enough!"
+  # :log info "$logFile file isn't created yet!";
+  :error "$logFile file isn't created yet!";
 }
 
 # The following gets executed only if the log file is ready!
 
-:log info "\nEmailing the log file..."
+:log info "Emailing the log file..."
 
 /tool e-mail
 
@@ -31,7 +39,7 @@
   send file="$logFile" subject="Log" body="See sub!" to=$adminEmail
 } on-error={ :log error "The log file could not be sent by email." }
 
-:do { :delay 1s; :set emailStatus [get last-status] } while=( $emailStatus = "in-progress" )
+:do { :delay 3s; :set emailStatus [get last-status] } while=( $emailStatus = "in-progress" )
 
 :if ( $emailStatus = "succeeded" ) do={
   :log info "The log file is sent to $adminEmail."
@@ -40,4 +48,3 @@
 }
 
 /file remove "$logFile"
-
