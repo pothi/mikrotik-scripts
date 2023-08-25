@@ -1,9 +1,8 @@
 TODO:
 
 - DoH script for nextdns
-- DoH script for quad9
 
-# important thread... https://forum.mikrotik.com/viewtopic.php?f=2&t=160243#p799274
+Important thread... https://forum.mikrotik.com/viewtopic.php?f=2&t=160243#p799274
 
 Remember that DoH depends on correct time. So, make sure NTP client is configured. The MikroTik Cloud NTP client service required DNS that in turn requires a working NTP client. So, don't depend on MikroTik Cloud NTP client service.
 

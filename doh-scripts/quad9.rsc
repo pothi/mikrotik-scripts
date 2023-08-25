@@ -15,10 +15,10 @@
 
 /ip dns
     static remove [find name="dns.quad9.net"]
-    static add address=9.9.9.9          name=dns.quad9.net comment="Quad9 IPv4"
-    static add address=149.112.112.112  name=dns.quad9.net comment="Quad9 IPv4 - secondary"
-    static add address=2620:fe::9       name=dns.quad9.net comment="Quad9 IPv6"
-    static add address=2620:fe::fe      name=dns.quad9.net comment="Quad9 IPv6 - secondary"
+    static add name=dns.quad9.net address=9.9.9.9          comment="Quad9 IPv4"
+    static add name=dns.quad9.net address=149.112.112.112  comment="Quad9 IPv4 - secondary"
+    static add name=dns.quad9.net address=2620:fe::9       comment="Quad9 IPv6"
+    static add name=dns.quad9.net address=2620:fe::fe      comment="Quad9 IPv6 - secondary"
 
     set use-doh-server=https://dns.quad9.net/dns-query verify-doh-cert=yes
 
