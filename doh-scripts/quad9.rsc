@@ -6,12 +6,12 @@
 /ip dns set verify-doh-cert=no
 
 # Quad9 uses DigiCert like CloudFlare.
-:local result [ /tool fetch url=https://cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem dst-path=ssl.pem as-value ];
+:local result [ /tool fetch url=https://cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem dst-path=quad9.pem as-value ];
 :do { :delay 2s } while=( $result->"status" != "finished" )
 
-/certificate remove [find]
-/certificate import file-name=ssl.pem passphrase=""
-/file remove ssl.pem
+/certificate remove [find name~"quad9.pem"]
+/certificate import file-name=quad9.pem passphrase=""
+/file remove quad9.pem
 
 /ip dns
     static remove [find name="dns.quad9.net"]

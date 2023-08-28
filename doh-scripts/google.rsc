@@ -6,7 +6,7 @@
 
 /tool fetch url=https://pki.goog/repo/certs/gtsr1.pem once
 :delay 5s
-/certificate remove [find~gtsr1]
+/certificate remove [find name~"gtsr1.pem"]
 /certificate import file-name=gtsr1.pem passphrase=""
 /file remove gtsr1.pem
 

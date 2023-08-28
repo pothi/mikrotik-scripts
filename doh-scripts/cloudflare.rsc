@@ -5,7 +5,7 @@
 /ip dns set verify-doh-cert=no
 
 /tool fetch url=https://cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem
-/certificate remove [find]
+/certificate remove [find name~"DigiCertGlobalRootCA.crt.pem"]
 /certificate import file-name=DigiCertGlobalRootCA.crt.pem passphrase=""
 /file remove DigiCertGlobalRootCA.crt.pem
 
