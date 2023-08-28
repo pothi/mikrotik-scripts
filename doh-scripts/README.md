@@ -9,7 +9,7 @@ Or you may use the [generic script](https://github.com/pothi/mikrotik-scripts/bl
 
 Relevant thread in MikroTik forums... https://forum.mikrotik.com/viewtopic.php?f=2&t=160243#p799274
 
-Remember that DoH depends on correct time. So, make sure NTP client is configured. The MikroTik Cloud NTP client service required DNS that in turn requires a working NTP client. So, don't depend on MikroTik Cloud NTP client service.
+Remember that DoH depends on the correct time on your MikroTik device. So, make sure that the NTP client is configured and is working. The MikroTik's Cloud NTP client service requires a working DNS that in turn requires a working NTP client. So, please don't depend on MikroTik's Cloud NTP sync service.
 
 Root CA certificates that we can use...
 
