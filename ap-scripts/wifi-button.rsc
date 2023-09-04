@@ -1,3 +1,4 @@
+# Only for Router OS v6
 # Ref: https://gist.github.com/sebastian13/47e788371474d73552593b621eeacd33
 
 :log info message=("mode button was pressed");

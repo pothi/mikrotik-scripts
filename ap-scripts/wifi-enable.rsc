@@ -15,21 +15,21 @@
 :local interfaces
 :local interface
 
-/interface 
 # :do { wifiwave2 enable [find]; } on-error={ :log info "Error enabling wifiwave2 interfaces" }
 :do {
-  :set interfaces [wireless print as-value]
+  :set interfaces [/int wifiwave2 print as-value]
 
 } on-error={
 
-  :log info "Wireless doesn't exist!";
+  :log info "Wifiwave2 doesn't exist!";
 
   :do {
-    :set interfaces [wifiwave2 print as-value]
-  } on-error={ :error "Wifiwave2 doesn't exist"; }
+    :set interfaces [/int wireless print as-value]
+  } on-error={ :error "Wireless doesn't exist"; }
 
 }
 
+/interface
 :foreach interface in=$interfaces do={
   :local wifiName ($interface->"name")
   :if ( [get $wifiName disabled] = true ) do={
