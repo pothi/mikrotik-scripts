@@ -1,39 +1,42 @@
 # Enable WiFi in the morning
 
+# Version: 2.0
+# changelog
+# version: 2.0
+#   - date: 2023-09-10
+#   - check for wifiwave2 at first.
+#   - improve naming scheme.
+
 # using mode button
-# /system routerboard mode-button set enabled=yes on-event=":log info \"Mode button pressed\"; /int wifiwave2 enable [find]; /int wireless enable [find];"
+# /system routerboard mode-button set enabled=yes on-event="wifi-enable"
 
 # as a cron event
 # /system scheduler
-# add comment="Enable WiFi @morning" interval=1d name="WiFi Enable" on-event="/int wifiwave2 enable [find]; /int wireless enable [find];" \
+# add comment="Enable WiFi @morning" interval=1d name="WiFi Enable" on-event="wifi-enable" \
     # policy=read,write,policy,test start-date=jan/03/2022 start-time=05:30:00
 
 # as a script to be used
 
-# Enable wireless / wifiwav2 interfaces if disabled.
+# Enable wifiwave2/wireless interface/s if disabled.
 
-:local interfaces
-:local interface
+:local allwlans
+:local wlan
 
-# :do { wifiwave2 enable [find]; } on-error={ :log info "Error enabling wifiwave2 interfaces" }
 :do {
-  :set interfaces [/int wifiwave2 print as-value]
-
+  :set allwlans [/int wifiwave2 print as-value]
 } on-error={
-
-  :log info "Wifiwave2 doesn't exist!";
+  :log info "No wifiwave2";
 
   :do {
-    :set interfaces [/int wireless print as-value]
-  } on-error={ :error "Wireless doesn't exist"; }
-
+    :set allwlans [/int wireless print as-value]
+  } on-error={ :error "No wireless either!"; }
 }
 
 /interface
-:foreach interface in=$interfaces do={
-  :local wifiName ($interface->"name")
-  :if ( [get $wifiName disabled] = true ) do={
-    enable $wifiName
-    :log info "$wifiName is enabled";
-  } else={ :log info "$wifiName is already running" }
+:foreach wlan in=$allwlans do={
+  :local wlanName ($wlan->"name")
+  :if ( [get $wlanName disabled] = true ) do={
+    enable $wlanName
+    :log info "$wlanName: Enabled";
+  } else={ :log info "$wlanName: Already enabled" }
 }
