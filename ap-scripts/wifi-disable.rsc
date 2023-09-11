@@ -6,7 +6,7 @@
 
 /system scheduler
 add comment="Shutdown WiFi @night to avoid electronic interference!" interval=1d name="WiFi Disable" on-event=\
-    ":do { /int wifiwave2 disable [find] } on-error={}; :do { /int wireless disable [find] } on-error={}"\
+    "/int disable [find type~\"wifi|wlan\"]"\
     policy=ftp,reboot,read,write,policy,test start-date=sep/03/2023 start-time=23:04:00
 
-# /system routerboard mode-button set enabled=yes on-event=":log info \"Mode button pressed\"; /int wifiwave2 enable [find]; /int wireless enable [find];"
+# /system routerboard mode-button set enabled=yes on-event="wifi-disable"
