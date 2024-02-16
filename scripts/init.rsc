@@ -34,7 +34,7 @@
 /system script
 
 :local commonScripts {"backup-buttons"; "backup-cron"; "backup-scripts"; "cloud-backup"; "firmware-check"}
-:local initScripts ("enable-wifi", $commonScripts)
+:local initScripts ("wifi-enable", $commonScripts)
 
 :foreach scriptName in $initScripts do={
   :do { run $scriptName } on-error={:log error "Error running $scriptName"}
