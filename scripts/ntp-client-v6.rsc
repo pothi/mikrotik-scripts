@@ -44,15 +44,7 @@
 :put "\nRouter OS Version: $rosVersion\n"
 
 
-if ( $rosVersion = 7 ) do={
-    :put "Code for ROSv7 executed."
-    /system ntp client servers
-        add address=128.138.140.44 comment="NIST.gov"
-        add address=[ :resolve pool.ntp.org ] comment="pool.ntp.org"
-        add address=time.google.com
-        add address=time.cloudflare.com
-} else={
-    :put "Code for ROSv6 executed."
+if ( $rosVersion = 6 ) do={
     /system ntp client
         set primary-ntp=128.138.140.44
         set secondary-ntp=[ :resolve pool.ntp.org ]
