@@ -3,9 +3,14 @@ The following DoH services can be automated for now...
 - [Cloudflare](https://github.com/pothi/mikrotik-scripts/blob/main/doh-scripts/cloudflare.rsc)
 - [Google](https://github.com/pothi/mikrotik-scripts/blob/main/doh-scripts/google.rsc)
 - [NextDNS](https://github.com/pothi/mikrotik-scripts/blob/main/doh-scripts/nextdns.rsc)
+
+Incompatible / buggy implementation...
+
 - [Quad9](https://github.com/pothi/mikrotik-scripts/blob/main/doh-scripts/quad9.rsc)
 
 Or you may use the [generic script](https://github.com/pothi/mikrotik-scripts/blob/main/doh-scripts/generic.rsc).
+
+Officially incompatible DoH servers... https://help.mikrotik.com/docs/spaces/ROS/pages/37748767/DNS#DNS-Knowncompatible/incompatibleDoHservices
 
 Relevant thread in MikroTik forums... https://forum.mikrotik.com/viewtopic.php?f=2&t=160243#p799274
 

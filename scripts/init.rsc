@@ -33,12 +33,24 @@
 
 /system script
 
-:local commonScripts {"backup-buttons"; "backup-cron"; "backup-scripts"; "cloud-backup"; "firmware-check"}
+:local commonScripts {"cloud-backup"; "firmware-check"}
 :local initScripts ("wifi-enable", $commonScripts)
 
 :foreach scriptName in $initScripts do={
   :do { run $scriptName } on-error={:log error "Error running $scriptName"}
   :delay 30s
+}
+
+:local currentHour [:tonum [:pick [/system clock get time] 0 2]]
+
+:if ($currentHour < 12) do={
+    :local backupScripts {"backup-cron"; "backup-scripts"}
+    :foreach scriptName in $backupScripts do={
+      :do { run $scriptName } on-error={:log error "Error running $scriptName"}
+      :delay 30s
+    }
+} else={
+    :log info "Automated backups aren't taken after 12 noon."
 }
 
 :log info "Init script ended."
