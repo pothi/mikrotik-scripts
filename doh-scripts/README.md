@@ -8,6 +8,8 @@ Incompatible / buggy implementation...
 
 - [Quad9](https://github.com/pothi/mikrotik-scripts/blob/main/doh-scripts/quad9.rsc)
 
+Since Router OS v7.19... built-in CA certificates can be used with `/certificate/settings/set builtin-trust-anchors=trusted`
+
 Or you may use the [generic script](https://github.com/pothi/mikrotik-scripts/blob/main/doh-scripts/generic.rsc).
 
 Officially incompatible DoH servers... https://help.mikrotik.com/docs/spaces/ROS/pages/37748767/DNS#DNS-Knowncompatible/incompatibleDoHservices
