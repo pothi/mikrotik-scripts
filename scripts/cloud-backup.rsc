@@ -3,7 +3,7 @@
 # requirement/s:
 :global cloudPass
 :if ([:typeof $cloudPass] = "nothing" || $cloudPass = "") do={
-  :log error "cloudPass is not defined or nil."; :error "Error: Check the log"; }
+  :log error "Cloud password is not defined."; :error "Error: Check the log"; }
 
 # permissions required: ftp, read, write, policy, test
 
@@ -22,8 +22,8 @@
 
 :log info "  A new cloud backup is being created..."
 
-  upload-file action=create-and-upload password=$cloudPass
-  :delay 30s
+upload-file action=create-and-upload password=$cloudPass
+:delay 30s
 
 :if ( ([:pick [print as-value] 0]->"status") = "ok" ) do={
   :log info "Cloud backup is successful."
