@@ -38,7 +38,7 @@ check-for-updates once
 
 # alternative method
 # :if ( $updateStatus = "New version is available" ) do={
-:if ( installedVersion != $latestVersion ) do={
+:if ( $installedVersion != $latestVersion ) do={
     :log info "A new update is available for Router OS."
     /tool e-mail send to="$adminEmail" \
       subject="Software Update is Available" \
