@@ -8,7 +8,7 @@
 /ip dns set verify-doh-cert=no
 
 # since RouterOS v7.19...
-/certificate/settings/set builtin-trust-anchors=trusted
+/certificate/settings/set builtin-trust-store=all
 
 # Add static DNS entries for the DoH server
 /ip dns static remove [find name=family.cloudflare-dns.com]

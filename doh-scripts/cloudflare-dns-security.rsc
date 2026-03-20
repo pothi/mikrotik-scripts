@@ -14,13 +14,15 @@
 :if ($rosVersion != 7) do={
   :error "We need Router OS version 7 to run this script - current ROS version $rosVersion."
 }
+:put "Router OS Version: 7"
 
 :local rosVersionMinor
 :set rosVersionMinor [:pick [/system/routerboard/get current-firmware] 2 4]
+:put "Router OS Minor Version: $rosVersionMinor"
 
-:if ($rosVersionMinor >= 19) do={
+:if ( $rosVersionMinor >= 19 ) do={
     :put "We have the required Router OS version (or greater) - $rosVersion.$rosVersionMinor, to enable built-in CA root certificates."
-    /certificate/settings/set builtin-trust-anchors=trusted
+    /certificate/settings/set builtin-trust-store=all
 } else={
     :put "We use the Router OS version $rosVersion.$rosVersionMinor that is less than the required version (7.19)."
 
@@ -41,14 +43,18 @@
 # /ip dns static add address=2606:4700:4700::1002 name=security.cloudflare-dns.com comment="DoH"
 /ip dns static add address=1.1.1.2 name=security.cloudflare-dns.com comment="DoH"
 /ip dns static add address=1.0.0.2 name=security.cloudflare-dns.com comment="DoH"
+:put "Static DNS entries are added for security.cloudflare-dns.com"
 
 /ip dns set use-doh-server=https://security.cloudflare-dns.com/dns-query verify-doh-cert=yes
+:put "DoH is configured."
 
 # optional steps
 # use the following if IPv6 is available on your internet
 # /ip dns set servers="2606:4700:4700::1112,2606:4700:4700::1002,1.1.1.2,1.0.0.2"
 /ip dns set servers="1.1.1.2,1.0.0.2"
 /ip dhcp-client set use-peer-dns=no [find]
+:put "Custom DNS servers are configured."
 
 # flush existing cache
 /ip dns cache flush
+:put "DNS cache is flushed."
